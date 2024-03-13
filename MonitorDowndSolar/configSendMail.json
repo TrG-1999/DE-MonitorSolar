@@ -1,0 +1,8 @@
+{
+	"SERVER" : "mail.domain.com",
+	"FROM" : "@domain.com",
+	"TO" : ["user@domain.com"],
+	"SUBJECT" : "Report log download MonitorSolar",
+	"PORT" : 25,
+	"dblog" : "\\storage\\dbsql\\rawdb.db"
+}

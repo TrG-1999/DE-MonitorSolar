@@ -1,0 +1,196 @@
+{% extends "layout.html" %}
+{% block content %}
+	<div class="site-header-logo">
+		<h1 class="text-center">
+			Monitor chart Solar
+		</h1>
+	</div>
+
+	<div class="row p-4">
+		<div class="card m-auto" style="width: 90%;">
+		<form id="subForm" action = "../filter_bar" method = "POST" >
+			<!-- Loan -->
+			<input type="hidden" id="custId" name="filloanid2" value="{{fil_line['loanid']}}">
+			<input type="hidden" id="custId" name="fildate2" value="{{fil_line['date']}}">
+			<input type="hidden" id="custId" name="filinverter2" value="{{fil_line['inverter']}}">
+			<div class="mb-3 mt-3" style="float:left;">
+			<label for="loanid1" class="form-label" style="width: 80px;float: left;">Loanid:</label>
+			<input class="form-control" list="oploanid1" name="loanid1" id="loanid1"  style="width:180px;">
+			<datalist id="oploanid1" >
+				<option value="All">
+			{% for iloan in lsloanf1 %}
+				<option value="{{iloan}}">
+			{% endfor %}
+			</datalist>
+			</div>
+			<!-- Date -->
+			<div class="mb-3 mt-3" style="float:left;">
+			<label for="dateid1" class="form-label" style="width: 50px;float: left;margin-left: 10px;">Date:</label>
+			<input class="form-control" list="opdateid1" name="dateid1" id="dateid1"  style="width:180px;">
+			<datalist id="opdateid1" >
+				<option value="All">
+			{% for idate in lsdatef1 %}
+				<option value="{{idate}}">
+			{% endfor %}
+			</datalist>
+			</div>
+			<!-- Inverter -->
+			<div class="mb-3 mt-3" style="float:left;">
+			<label for="inverter1" class="form-label" style="width: 80px;float: left;margin-left: 10px;">Inverter:</label>
+			<input class="form-control" list="opinverter1" name="inverter1" id="inverter1"  style="width:180px;">
+			<datalist id="opinverter1" >
+				<option value="All" selected>
+			{% for invter in inverter1 %}
+				<option value="{{invter}}">
+			{% endfor %}
+			</datalist>
+			</div>
+			<!-- region -->
+			<div class="mb-3 mt-3">
+			<label for="region1" class="form-label" style="width: 80px;float: left;margin-left: 10px;">Region:</label>
+			<input class="form-control" list="opregion1" name="region1" id="region1"  style="width:180px;">
+			<datalist id="opregion1" >
+				<option value="All">
+			{% for iregion in region1 %}
+				<option value="{{iregion}}">
+			{% endfor %}
+			</datalist>
+			</div>
+			
+			<div class="mb-3 mt-3" style="float: right;margin-right: 7%;">
+				<button class="btn btn-outline-success" type="submit">Filter</button>
+			</div>
+			<div style="float: clear;"></div>
+		</form>
+			<div class="card-body">
+				<!-- <p>
+					This is Chart Solar!
+				</p> -->
+				<div id = "chartbar"> </div>
+			</div>
+		</div>
+
+		<div class="card m-auto" style="width: 90%;">
+			<form id="subForm" action = "../filter_line" method = "POST" class="was-validated"><!--class="was-validated" -->
+			<input type="hidden" id="filloanid1" name="filloanid1" value="{{fil_bar['loanid']}}">
+			<input type="hidden" id="fildate1" name="fildate1" value="{{fil_bar['date']}}">
+			<input type="hidden" id="filinverter1" name="filinverter1" value="{{fil_bar['inverter']}}">
+			<input type="hidden" id="filregion1" name="filregion1" value="{{fil_bar['region']}}">
+			<!-- Loan -->
+			<div class="mb-3 mt-3" style="float:left;">
+			<label for="lsloanf2" class="form-label" style="width: 80px;float: left;">Loanid:</label>
+			<input class="form-control" list="oplsloanf2" name="lsloanf2" id="lsloanf2"  style="width:180px;">
+			<datalist id="oplsloanf2" >
+				<option value="All">
+			{% for iloan in lsloanf2 %}
+				<option value="{{iloan}}">
+			{% endfor %}
+			</datalist>
+			</div>
+			<!-- Date -->
+			<div class="mb-3 mt-3" style="float:left;">
+			<label for="lsdatef2" class="form-label" style="width: 50px;float: left;margin-left: 10px;">Date:</label>
+			<input class="form-control" list="oplsdatef2" name="lsdatef2" id="lsdatef2"  style="width:180px;" required>
+			<datalist id="oplsdatef2" >
+				<option value="All">
+			{% for idate in lsdatef2 %}
+				<option value="{{idate}}">
+			{% endfor %}
+			</datalist>
+			</div>
+			<!-- Inverter -->
+			<div class="mb-3 mt-3" style="float:left;">
+			<label for="inverter2" class="form-label" style="width: 80px;float: left;margin-left: 10px;">Inverter:</label>
+			<input class="form-control" list="opinverter2" name="inverter2" id="inverter2"  style="width:180px;">
+			<datalist id="opinverter2" >
+				<option value="All">
+			{% for invter in inverter2 %}
+				<option value="{{invter}}">
+			{% endfor %}
+			</datalist>
+			</div>
+			<div class="mb-3 mt-3" style="margin-left: 30px;float:left;" >
+				<button class="btn btn-outline-success" type="submit">Filter</button>
+			</div>
+			<div style="float: clear;"></div>
+			</form>
+			<div class="card-body">
+<!-- 				<p>
+					This is Chart Solar!
+				</p> -->
+				<div id = "chartline"> </div>
+			</div>
+		</div>
+
+		<!-- Table -->
+		<div class="card m-auto" style="width: 90%;">
+			<div class="card-body">
+		<!-- 		<p>
+					This is Chart Solar!
+				</p> -->
+				<input type="text" id="filter-input" placeholder="Filter">
+				<a href="../Downloads_target">Downloads Targer/Performence</a>
+				<div id="data-table"></div>
+			</div>
+		</div>
+	</div>
+
+	<!-- plotly CDN -->
+	<script src="{{ url_for('static', filename='scripts/plotly/plotly-2.25.2.min.js') }}"></script>
+	<script>
+		var layout = {
+				autosize: false,
+				width: 1000,
+				height: 500
+			};
+		var graphbar = {{ graphBarDate | safe}};
+		Plotly.newPlot("chartbar",graphbar, layout);
+
+		var graphline = {{ graphLinesMin | safe}};
+		Plotly.newPlot('chartline', graphline, layout);
+
+		//table
+		var figData = {{ figtable_json|safe }};
+		const defaultValue = figData.data[0].cells.values
+		// Create the Plotly table from the JSON data
+		document.addEventListener("DOMContentLoaded", function () {
+            // Sample JSON data (replace with your own data)
+            const jsonData = figData;
+
+            // Create a Plotly table
+            Plotly.newPlot('data-table', jsonData.data, jsonData.layout);
+
+            // Add filtering functionality
+            const filterInput = document.getElementById("filter-input");
+
+             filterInput.addEventListener("keyup", function (event) {
+ 
+				function transposeArray(arr) {
+				  return arr[0].map((_, colIndex) => arr.map(row => row[colIndex]));
+				}
+
+				var filterText = filterInput.value.toUpperCase();
+                    var jsonData = figData;
+                    jsonData.data[0].cells.values = defaultValue
+                	// console.log(filterText);
+	                // console.log(filterText.length);
+	                // Filter the data values
+	                if (filterText.length == 0) {
+					  jsonData.data[0].cells.values = defaultValue
+					} else {
+						  var filteredValues = transposeArray(defaultValue).filter(row => {
+		                    return row.some(cell => cell.toString().toUpperCase().includes(filterText));
+		                });
+						// Update the table with filtered values
+	                	jsonData.data[0].cells.values = transposeArray(filteredValues);
+					}
+	                
+
+	                
+
+	                Plotly.newPlot('data-table', jsonData.data, jsonData.layout);
+                
+            });
+        });
+	</script>
+{% endblock %}

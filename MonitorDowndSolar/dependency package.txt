@@ -1,0 +1,9 @@
+pip install requests
+pip install pandas
+pip install selenium
+pip install openpyxl
+pip install xlrd
+pip install psycopg2
+pip install schedule
+pip install flask
+pip install plotly
