@@ -132,6 +132,7 @@ class ImportDB:
             src_conn = sqlite3.connect(self.current_directory+conf['src_database'])
             fbydate = psql.read_sql(conf["sql_by_date"], src_conn).fillna('NoneData')
             fbymin = psql.read_sql(conf["sql_by_min"], src_conn).fillna('NoneData')
+            ffails = psql.read_sql(conf["sql_log_fail"], src_conn)
             src_conn.close()
             #export sqlite for webchart
             dest_conn = sqlite3.connect(self.current_directory+conf['dest_database'])
@@ -139,6 +140,7 @@ class ImportDB:
             fbydate.columns=['LoanID','Date','Power(Kw/h)','Grid_Power(Kw/h)','Consumption(Kw/h)','BatteryCharge(Kw/h)','BatteryDisCharge(Kw/h)','InverterName','Status','Region','installed_capacity']
             fbydate['Date'] = pd.to_datetime(fbydate['Date'], format='%Y%m%d')
             fbydate['Date']  = fbydate['Date'].dt.strftime('%Y/%m/%d')
+            # Save the DataFrame to the SQLite database
             fbydate.to_sql(table_name, dest_conn, if_exists='replace', index=False)
             table_name = 'Monitor_Min'
             fbymin.columns=['LoanID', 'Date','Time','Power(Kw/h)', 'Grid_Power(Kw/h)', 'Consumption(Kw/h)', 'BatteryCharge(Kw/h)', 'BatteryDisCharge(Kw/h)', 'InverterName']
@@ -146,7 +148,15 @@ class ImportDB:
             fbymin['Date']  = fbymin['Date'].dt.strftime('%Y/%m/%d')
             # Save the DataFrame to the SQLite database
             fbymin.to_sql(table_name, dest_conn, if_exists='replace', index=False)
+            
+            #Save data fail case to SQLite database
+            table_name = 'Statusdown'
+            ffails.columns=['Domain','LoanID','Date','Status_down']
+            ffails['Date'] = pd.to_datetime(ffails['Date'], format='%Y%m%d')
+            ffails['Date']  = ffails['Date'].dt.strftime('%Y/%m/%d')
+            ffails.to_sql(table_name, dest_conn, if_exists='replace', index=False)
             dest_conn.close()
+            print('Done Export webchar')
             #Remove file Excel in folder export
             for file in os.listdir(self.current_directory+conf['dir_export_perf']):
                 os.remove(self.current_directory+conf['dir_export_perf']+'\\'+file)
@@ -159,6 +169,7 @@ class ImportDB:
             with open(r'log_down.csv', 'a', newline='') as f:
                 writer = csv.writer(f)
                 writer.writerow(field)
+
 
 
 if __name__ == "__main__":

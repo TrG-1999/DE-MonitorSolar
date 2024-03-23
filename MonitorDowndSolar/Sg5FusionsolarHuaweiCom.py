@@ -112,7 +112,7 @@ class Sg5FusionsolarHuaweiCom:
             time.sleep(2)
             #get https://sg5.fusionsolar.huawei.com/pvmswebsite/assets/build/index.html#/view/station/NE=33940121/overview
             # click plant 
-            elementval = WebDriverWait(self.driver, 7).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="root"]/div/div/div/div[2]/div/div/div[2]/div[4]/div/div/div/div/div/div/div/table/tbody/tr/td[3]/div/a')))
+            elementval = WebDriverWait(self.driver, 7).until(EC.element_to_be_clickable((By.XPATH, "//*[@class='ant-table-cell nco-cloumn-relative ant-table-cell-ellipsis']//a")))
             elementval.click()
             print('chose time')
             time.sleep(4)  # Adjust this wait time based on the website's loading time
@@ -209,7 +209,9 @@ class Sg5FusionsolarHuaweiCom:
             elementval.click()
             time.sleep(2)
             # click plant 
-            elementval = WebDriverWait(self.driver, 7).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="root"]/div/div/div/div[2]/div/div/div[2]/div[4]/div/div/div/div/div/div/div/table/tbody/tr/td[3]/div/a')))
+            # elementval = WebDriverWait(self.driver, 7).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="root"]/div/div/div/div[2]/div/div/div[2]/div[4]/div/div/div/div/div/div/div/table/tbody/tr/td[3]/div/a')))
+            # elementval.click()
+            elementval = WebDriverWait(self.driver, 7).until(EC.element_to_be_clickable((By.XPATH, "//*[@class='ant-table-cell nco-cloumn-relative ant-table-cell-ellipsis']//a")))
             elementval.click()
             time.sleep(1)
             # click report manager 

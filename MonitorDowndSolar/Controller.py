@@ -165,7 +165,7 @@ if __name__ == "__main__":
     current_directory = str(os.getcwd())
     control = Controller(file_template=current_directory +
                          r'\template_solar.xlsx', current_directory=current_directory)
-    # #load data for template
+    #load data for template
     control.read_dataframe_template()
     #run download data
     control.run_download()

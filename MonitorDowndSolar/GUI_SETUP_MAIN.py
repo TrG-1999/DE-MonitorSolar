@@ -14,6 +14,7 @@ from email.mime.text import MIMEText
 import shutil
 import smtplib
 import subprocess
+import sqlite3
 
 
 class SendMail:
@@ -91,6 +92,7 @@ def executeProgram(user,passmail):
         print("Task executed at:", time.strftime("%Y-%m-%d %H:%M:%S"))
         subprocess.Popen(r'py controller.py', cwd=curpatch).wait()
         time.sleep(4)
+        print("Done controller")
         with open(curpatch+'\\configSendMail.json','r',encoding="utf-8") as json_file:
             configData = json.load(json_file)
         today = datetime.now()

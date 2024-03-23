@@ -160,6 +160,14 @@ def get_query_for_table():
         GROUP by invertername,loanid ORDER by "AvgPerformance%" ASC'''
     return query
 
+def get_query_fail_case():
+    query = r'''SELECT Domain,LoanID,Date,Status_down 
+    FROM Statusdown 
+    WHERE  substr(Date,1,7) = strftime('%Y/%m', DATE('now', '-1 day'), 'localtime') order by Date DESC'''
+
+    return query
+
+
 @app.route("/")
 def index():
     global lsloanf1
@@ -400,9 +408,24 @@ def downloads_target():
 
     return send_from_directory(direct,filesave)
 
+@app.route("/Downloads_fails",methods=['POST','GET'])
+def Downloads_fails():
+    folderexport = '\\tool\\ExportTarget'
+    curpatch = str(os.getcwd())
+    conn = sqlite3.connect(curpatch+'\\tool\\data_chart.db')
+    query = get_query_fail_case()
+    df = pd.read_sql_query(query, conn)
+    conn.close()
+    today = datetime.now()
+    timeout = today.strftime("%H%M%S")
+    dateout = today.strftime("%m%Y")
+    direct = curpatch+folderexport
+    filesave = 'Export_FailCase_'+dateout+'_'+timeout+'.xlsx'
+    df.to_excel(direct+'\\'+filesave, index=False)
 
+    return send_from_directory(direct,filesave)
 
 if __name__ == "__main__":
     # app.run(debug=True)
-    app.run(debug=True,port=5000,host="0.0.0.0")
+    app.run(debug=False,port=5000,host="0.0.0.0")
 

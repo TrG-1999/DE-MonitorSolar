@@ -3,5 +3,6 @@
 	"dest_database" : "\\SolarChart\\tool\\data_chart.db",
 	"dir_export_perf" : "\\SolarChart\\tool\\ExportTarget",
 	"sql_by_date" : "select \"Loan\",\"Date\",\"Power(Kw/h)\",\"Grid Power(Kw/h)\",\"Consumption(Kw/h)\",\"BatteryCharge(Kw/h)\",\"BatteryDisCharge(Kw/h)\",\"InverterName\",\"Status\",\"Region\",\"installed_capacity\" from clean_byday_from_min",
-	"sql_by_min" : "select \"Loan\",\"Date\",\"Time\",\"Power(Kw/h)\",\"Grid Power(Kw/h)\",\"Consumption(Kw/h)\",\"BatteryCharge(Kw/h)\",\"BatteryDisCharge(Kw/h)\",\"InverterName\" from clean_bymin_from_raw"
+	"sql_by_min" : "select \"Loan\",\"Date\",\"Time\",\"Power(Kw/h)\",\"Grid Power(Kw/h)\",\"Consumption(Kw/h)\",\"BatteryCharge(Kw/h)\",\"BatteryDisCharge(Kw/h)\",\"InverterName\" from clean_bymin_from_raw",
+	"sql_log_fail" : "SELECT DOMAIN,LOAN,DATE,STATUS_DOWN FROM status_down WHERE STATUS_DOWN in ('Fail') order by DATE DESC"
 }
